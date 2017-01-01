@@ -2,12 +2,21 @@
 const p5 = require('p5');
 
 new p5((s) => {
+  const starNum = 100;
+  const initStarRad = 10;
+  const canvasWidth = 640;
+  const canvasHeight = 640;
+
   const setup = () => {
-    s.createCanvas(640, 480);
+    s.createCanvas(640, 640);
   };
 
   const draw = () => {
-    s.ellipse(50, 50, 80, 80);
+    console.log('window:', s.windowWidth, s.windowHeight);
+    console.log('display:', s.displayWidth, s.displayHeight);
+    for (let i = 0; i < starNum; i++) {
+      s.ellipse(Math.random());
+    }
   };
 
   s.setup = setup;

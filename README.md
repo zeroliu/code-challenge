@@ -4,5 +4,4 @@ Video playlist: https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhf
 
 ## To develop
 - Copy p5-boilerplate and call `npm install`
-- Call `watchify app.js -o bundle.js` to generate bundle.js.
-- Call `http-server` to serve the app on local server.
+- Call `npm start`

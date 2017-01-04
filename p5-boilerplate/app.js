@@ -1,8 +1,9 @@
-const p5 = require('p5');
-
 new p5((s) => {
+  let canvasWidth, canvasHeight;
   const setup = () => {
-    s.createCanvas(640, 480);
+    canvasWidth = s.displayWidth * 0.95;
+    canvasHeight = canvasWidth;
+    s.createCanvas(canvasWidth, canvasHeight);
   };
 
   const draw = () => {

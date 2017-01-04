@@ -5,28 +5,32 @@ class Star {
   constructor(width, height, sketch) {
     this.width = width;
     this.height = height;
-    this.depth = Math.max(this.width, this.height);
-    this.sketch = sketch;
-    this.x = (Math.random() - 0.5) * this.width;
-    this.y = (Math.random() - 0.5) * this.height;
-    this.z = Math.random() * this.depth;
+    this.s = sketch;
+    this.x = this.s.random(-this.width/2, this.width/2);
+    this.y = this.s.random(-this.height/2, this.height/2);
+    this.z = this.s.random(0, this.width);
+    this.speed = STAR_SPEED / 2;
   }
 
   update() {
-    const speed = STAR_SPEED * this.sketch.mouseX / this.width + 5;
-    this.z -= speed;
+    if (this.s.touches.length > 0) {
+      this.speed = this.s.map(
+        this.s.touches[0].x, 0, this.width, 5, STAR_SPEED
+      );
+    }
+    this.z -= this.speed;
     if (this.z < 1) {
-      this.x = (Math.random() - 0.5) * this.width;
-      this.y = (Math.random() - 0.5) * this.height;
-      this.z = this.depth;
+      this.x = this.s.random(-this.width/2, this.width/2);
+      this.y = this.s.random(-this.height/2, this.height/2);
+      this.z = this.width;
     }
   }
 
   render() {
-    const x = this.x / this.z * this.width / 2;
-    const y = this.y / this.z * this.height / 2;
-    const r = STAR_RADIUS * (1 - this.z / this.depth);
-    this.sketch.ellipse(x, y, r, r);
+    const x = this.s.map(this.x / this.z, 0, 1, 0, this.width);
+    const y = this.s.map(this.y / this.z, 0, 1, 0, this.height);
+    const r = STAR_RADIUS * (1 - this.z / this.width);
+    this.s.ellipse(x, y, r, r);
   }
 }
 

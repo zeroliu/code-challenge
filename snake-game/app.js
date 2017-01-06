@@ -1,4 +1,3 @@
-const p5 = require('p5');
 const Snake = require('./snake');
 const FoodList = require('./food_list');
 

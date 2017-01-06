@@ -2,12 +2,16 @@ const webpack = require('webpack');
 const aws = require('aws-sdk');
 const fs = require('fs');
 const fetch = require('node-fetch');
+const crypto = require('crypto');
 
 const args = process.argv.slice(2);
 if (!args[0]) throw new Error('Please provide challenge name');
 main(args[0]);
 
 function main(folderName) {
+  const date = Date.now().toString();
+  const version = crypto.createHash('md5').update(date).digest('hex');
+
   compileJs(() => {
     upload('bundle.js');
     upload('screenshot.jpg');
@@ -51,11 +55,11 @@ function main(folderName) {
       const s3 = new aws.S3();
       const params = {
         Bucket: 'static.zeroliu.com',
-        Key: `code-challenge/${folderName}/${fileName}`,
+        Key: `code-challenge/${folderName}/${version}_${fileName}`,
         Body: data
       };
 
-      s3.upload(params, (err, data) => {
+      s3.upload(params, (err) => {
         if (err) throw err;
         console.log(`Successfully uploaded ${fileName}`);
       });

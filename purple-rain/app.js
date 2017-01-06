@@ -29,9 +29,6 @@ new p5((s) => {
       }
     }
     s.background(230, 230, 250);
-    s.stroke(255);
-    s.strokeWeight(1);
-    s.text('new version', 10, 30);
     for (let drop of drops) {
       drop.update();
       drop.draw();

@@ -12,7 +12,7 @@ new p5((s) => {
     swipe = new Swipe(swipeDetected, s);
     canvasWidth = s.displayWidth * 0.95;
     canvasHeight = canvasWidth;
-    size = canvasWidth / 30;
+    size = s.floor(canvasWidth / 30);
     s.createCanvas(canvasWidth, canvasHeight);
     s.ellipseMode(s.CORNER);
     snake = new Snake(canvasWidth, canvasHeight, size, s);

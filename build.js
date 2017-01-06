@@ -63,6 +63,27 @@ function main(folderName) {
   }
 
   function updateDb() {
-    console.log(fetch);
+    fs.readFile(`./${folderName}/metadata.json`, (err, data) => {
+      if (err) throw err;
+
+      const metadata = JSON.parse(data);
+      const body = Object.assign({name: folderName}, metadata);
+
+      fetch('https://zjronxwl1b.execute-api.us-west-2.amazonaws.com/prod/codeChallenge', {
+        method: 'POST',
+        headers: {
+          'x-api-key': 'lMEdaTk8gs6uMrZ0yn5kZ1yJynVyP0gA6ECoMjPT',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+      .then((res) => {
+        if (res.status > 400) {
+          console.error(`Error updating db: ${res.statusText}`);
+        } else {
+          console.log('Successfully updated db');
+        }
+      });
+    });
   }
 }

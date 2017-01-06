@@ -1,16 +1,22 @@
 const Snake = require('./snake');
 const FoodList = require('./food_list');
+const Swipe = require('./swipe');
 
 new p5((s) => {
-  const SIZE = 10;
-  const WIDTH = 300;
-  const HEIGHT = 300;
-  let snake, foodList;
+  let canvasWidth, canvasHeight, size, snake, foodList, swipe;
+  const swipeDetected = (dx, dy) => {
+    snake.turn(dx, dy);
+  };
+
   const setup = () => {
-    s.createCanvas(WIDTH, HEIGHT);
+    swipe = new Swipe(swipeDetected, s);
+    canvasWidth = s.displayWidth * 0.95;
+    canvasHeight = canvasWidth;
+    size = canvasWidth / 30;
+    s.createCanvas(canvasWidth, canvasHeight);
     s.ellipseMode(s.CORNER);
-    snake = new Snake(WIDTH, HEIGHT, SIZE, s);
-    foodList = new FoodList(WIDTH, HEIGHT, SIZE, s);
+    snake = new Snake(canvasWidth, canvasHeight, size, s);
+    foodList = new FoodList(canvasWidth, canvasHeight, size, s);
   };
 
   const draw = () => {
@@ -55,4 +61,6 @@ new p5((s) => {
   s.setup = setup;
   s.draw = draw;
   s.keyPressed = keyPressed;
+  s.touchStarted = () => swipe.startTouch();
+  s.touchMoved = () => swipe.moveTouch();
 }, document.getElementById('container'));

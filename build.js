@@ -69,7 +69,7 @@ function main(folderName) {
       const metadata = JSON.parse(data);
       const body = Object.assign({name: folderName}, metadata);
 
-      fetch('https://zjronxwl1b.execute-api.us-west-2.amazonaws.com/prod/codeChallenge', {
+      fetch('https://zjronxwl1b.execute-api.us-west-2.amazonaws.com/prod', {
         method: 'POST',
         headers: {
           'x-api-key': 'lMEdaTk8gs6uMrZ0yn5kZ1yJynVyP0gA6ECoMjPT',

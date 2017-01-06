@@ -8,5 +8,5 @@ Video playlist: https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhf
 
 ## To publish
 - Update metadata.json
-- Take a screenshot of 640x260 and save as screenshot.jpg
+- Take a screenshot of 800x160 and save as screenshot.jpg
 - In root folder, execute `node build.js <folderName>`

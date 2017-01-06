@@ -71,7 +71,9 @@ function main(folderName) {
       if (err) throw err;
 
       const metadata = JSON.parse(data);
-      const body = Object.assign({name: folderName}, metadata);
+      const body = Object.assign(
+        {name: folderName, version: version}, metadata
+      );
 
       fetch('https://zjronxwl1b.execute-api.us-west-2.amazonaws.com/prod', {
         method: 'POST',

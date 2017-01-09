@@ -1,4 +1,4 @@
 {
     "displayName": "Maze Generation",
-    "description": "Pan Left/Right to control generate speed. The demo is implemented with recursive backtracker method."
+    "description": "Pan Left/Right to control speed."
 }

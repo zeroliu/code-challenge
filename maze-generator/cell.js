@@ -9,6 +9,7 @@ class Cell {
   }
 
   removeWall(direction) {
+    this.wall &= ~(1 << direction);
   }
 
   getUnvisitedNeighbor(cells) {
@@ -31,7 +32,7 @@ class Cell {
     }
 
     if (neighbors.length > 0) {
-      let index = this.s.floor(this.s.random(0, cells.length));
+      let index = this.s.floor(this.s.random(0, neighbors.length));
       return neighbors[index];
     }
 
@@ -39,17 +40,17 @@ class Cell {
   }
 
   draw() {
-    this.s.stroke(200);
+    this.s.stroke(0, 155, 45);
     const sx = this.x * this.size;
     const sy = this.y * this.size;
-    if (this.wall & 1 << Cell.Direction.UP) {
+    if (this.wall & 1 << Cell.Direction.TOP) {
       this.s.line(sx, sy, sx + this.size, sy);
     }
     if (this.wall & 1 << Cell.Direction.RIGHT) {
       this.s.line(sx + this.size, sy,
                   sx + this.size, sy + this.size);
     }
-    if (this.wall & 1 << Cell.Direction.DOWN) {
+    if (this.wall & 1 << Cell.Direction.BOTTOM) {
       this.s.line(sx, sy + this.size,
                   sx + this.size, sy + this.size);
     }
@@ -60,16 +61,16 @@ class Cell {
 
     if (this.visited) {
       this.s.noStroke();
-      this.s.fill(255, 0, 255, 100);
-      this.s.rect(sx, sy, this.size, this.size)
+      this.s.fill(237, 178, 0, 100);
+      this.s.rect(sx, sy, this.size, this.size);
     }
   }
 }
 
 Cell.Direction = {
-  UP: 0,
+  TOP: 0,
   RIGHT: 1,
-  DOWN: 2,
+  BOTTOM: 2,
   LEFT: 3
 };
 

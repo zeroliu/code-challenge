@@ -2,7 +2,7 @@ import Cell from './cell';
 
 
 new p5((s) => {
-  const CELL_COUNT = 25;
+  const CELL_COUNT = 20;
   let canvasWidth, canvasHeight, size, cells, stack, current;
 
   const removeWalls = (cellA, cellB) => {

@@ -10,7 +10,7 @@ new p5((s) => {
 
   const setup = () => {
     swipe = new Swipe(swipeDetected, s);
-    canvasWidth = s.displayWidth * 0.95;
+    canvasWidth = s.windowWidth * 0.95;
     canvasHeight = canvasWidth;
     size = s.floor(canvasWidth / 30);
     s.createCanvas(canvasWidth, canvasHeight);

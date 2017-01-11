@@ -6,7 +6,7 @@ new p5((s) => {
   let canvasWidth, canvasHeight;
   const stars = [];
   const setup = () => {
-    canvasWidth = s.displayWidth * 0.95;
+    canvasWidth = s.windowWidth * 0.95;
     canvasHeight = canvasWidth;
     s.createCanvas(canvasWidth, canvasHeight);
     s.background(0);

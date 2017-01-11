@@ -27,7 +27,7 @@ new p5((s) => {
 
   const setup = () => {
     s.frameRate(10);
-    canvasWidth = s.floor(s.displayWidth * 0.95);
+    canvasWidth = s.floor(s.windowWidth * 0.95);
     canvasWidth -= canvasWidth % 10;
     canvasHeight = canvasWidth;
     s.createCanvas(canvasWidth, canvasHeight);

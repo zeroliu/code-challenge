@@ -7,7 +7,7 @@ new p5((s) => {
   const drops = [];
 
   const setup = () => {
-    canvasWidth = s.displayWidth * 0.95;
+    canvasWidth = s.windowWidth * 0.95;
     canvasHeight = canvasWidth;
     s.createCanvas(canvasWidth, canvasHeight);
     for (let i = 0; i< s.random(MIN_DROP_NUM, MAX_DROP_NUM); i++) {

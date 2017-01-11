@@ -6,11 +6,9 @@ new p5((s) => {
   const KILL = 0.062;
 
   const setup = () => {
-    //canvasWidth = s.displayWidth * 0.95;
-    //canvasWidth -= canvasWidth % 10;
-    //canvasHeight = canvasWidth;
-    canvasWidth = 200;
-    canvasHeight = 200;
+    canvasWidth = s.windowWidth * 0.95;
+    canvasWidth -= canvasWidth % 10;
+    canvasHeight = canvasWidth;
 
     s.createCanvas(canvasWidth, canvasHeight);
     grids = [];

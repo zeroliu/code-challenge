@@ -1,16 +1,26 @@
 const webpack = require('webpack');
-const aws = require('aws-sdk');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const crypto = require('crypto');
+const gcloud = require('google-cloud');
+
 
 const args = process.argv.slice(2);
 if (!args[0]) throw new Error('Please provide challenge name');
-main(args[0]);
+const folderName = args[0].endsWith('/') ? args[0].slice(0, -1) : args[0];
+main(folderName);
 
 function main(folderName) {
-  const date = Date.now().toString();
-  const version = crypto.createHash('md5').update(date).digest('hex');
+  const date = Date.now();
+  const version = crypto
+    .createHash('md5')
+    .update(date.toString())
+    .digest('hex');
+  const storage = gcloud.storage({
+    projectId: 'code-challenge-bb812',
+    keyFilename: '/Users/zeroliu/Code Challenge-43b13b7860cf.json'
+  });
+  const bucket = storage.bucket('code-challenge-bb812.appspot.com');
 
   compileJs(() => {
     upload('bundle.js');
@@ -49,20 +59,12 @@ function main(folderName) {
   }
 
   function upload(fileName) {
-    fs.readFile(`./${folderName}/${fileName}`, (err, data) => {
-      if (err) throw err;
+    bucket.upload(`./${folderName}/${fileName}`, {
+      destination: `code-challenge/${folderName}/${version}_${fileName}`
+    }, (err, file) => {
+      if (err) throw new Error(err);
 
-      const s3 = new aws.S3();
-      const params = {
-        Bucket: 'static.zeroliu.com',
-        Key: `code-challenge/${folderName}/${version}_${fileName}`,
-        Body: data
-      };
-
-      s3.upload(params, (err) => {
-        if (err) throw err;
-        console.log(`Successfully uploaded ${fileName}`);
-      });
+      console.log(`Successfully uploaded ${fileName}`)
     });
   }
 
@@ -72,18 +74,15 @@ function main(folderName) {
 
       const metadata = JSON.parse(data);
       const body = Object.assign(
-        {name: folderName, version: version}, metadata
+        {name: folderName, version: version, lastUpdatedDate: date}, metadata
       );
 
-      fetch('https://zjronxwl1b.execute-api.us-west-2.amazonaws.com/prod', {
-        method: 'POST',
-        headers: {
-          'x-api-key': 'lMEdaTk8gs6uMrZ0yn5kZ1yJynVyP0gA6ECoMjPT',
-          'Content-Type': 'application/json'
-        },
+      fetch(`https://code-challenge-bb812.firebaseio.com:443/challenges/${folderName}.json`, {
+        method: 'PUT',
         body: JSON.stringify(body)
       })
       .then((res) => {
+        console.log(res.status);
         if (res.status > 400) {
           console.error(`Error updating db: ${res.statusText}`);
         } else {

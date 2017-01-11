@@ -4,9 +4,9 @@
   "description": "Video playlist: https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH",
   "main": "build.js",
   "dependencies": {
-    "aws-sdk": "^2.7.21",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
+    "google-cloud": "^0.45.2",
     "node-fetch": "^1.6.3",
     "webpack": "^1.14.0"
   },

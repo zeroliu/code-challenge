@@ -82,7 +82,6 @@ function main(folderName) {
         body: JSON.stringify(body)
       })
       .then((res) => {
-        console.log(res.status);
         if (res.status > 400) {
           console.error(`Error updating db: ${res.statusText}`);
         } else {

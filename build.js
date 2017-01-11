@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const crypto = require('crypto');
-const gcloud = require('google-cloud');
+const google = require('googleapis');
 
 
 const args = process.argv.slice(2);
@@ -16,10 +16,15 @@ function main(folderName) {
     .createHash('md5')
     .update(date.toString())
     .digest('hex');
-  const storage = gcloud.storage({
-    projectId: 'code-challenge-bb812',
-    keyFilename: '/Users/zeroliu/Code Challenge-43b13b7860cf.json'
+  const keyFilename = '/Users/zeroliu/Developer/code-challenge-bb812-firebase-adminsdk-shlf2-5c2dd3debd.json';
+  const gcloud = require('google-cloud')({
+    keyFilename: keyFilename
   });
+  const storage = gcloud.storage({
+    projectId: 'code-challenge-bb812'
+  });
+  const key = require(keyFilename);
+  const jwtClient = new google.auth.JWT(key.client_email, null, key.private_key, ['https://www.googleapis.com/auth/firebase.database', 'https://www.googleapis.com/auth/userinfo.email'], null);
   const bucket = storage.bucket('code-challenge-bb812.appspot.com');
 
   compileJs(() => {
@@ -77,16 +82,21 @@ function main(folderName) {
         {name: folderName, version: version, lastUpdatedDate: date}, metadata
       );
 
-      fetch(`https://code-challenge-bb812.firebaseio.com:443/challenges/${folderName}.json`, {
-        method: 'PUT',
-        body: JSON.stringify(body)
-      })
-      .then((res) => {
-        if (res.status > 400) {
-          console.error(`Error updating db: ${res.statusText}`);
-        } else {
-          console.log('Successfully updated db');
-        }
+      jwtClient.authorize((err, tokens) => {
+        if (err) throw new Error(err);
+
+        fetch(`https://code-challenge-bb812.firebaseio.com:443/challenges/${folderName}.json`, {
+          headers: {'Authorization': `Bearer ${tokens.access_token}`},
+          method: 'PUT',
+          body: JSON.stringify(body)
+        })
+        .then((res) => {
+          if (res.status > 400) {
+            console.error(`Error updating db: ${res.statusText}`);
+          } else {
+            console.log('Successfully updated db');
+          }
+        });
       });
     });
   }

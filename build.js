@@ -24,7 +24,15 @@ function main(folderName) {
     projectId: 'code-challenge-bb812'
   });
   const key = require(keyFilename);
-  const jwtClient = new google.auth.JWT(key.client_email, null, key.private_key, ['https://www.googleapis.com/auth/firebase.database', 'https://www.googleapis.com/auth/userinfo.email'], null);
+  const jwtClient = new google.auth.JWT(
+    key.client_email,
+    null,
+    key.private_key,
+    [
+      'https://www.googleapis.com/auth/firebase.database',
+      'https://www.googleapis.com/auth/userinfo.email'
+    ],
+    null);
   const bucket = storage.bucket('code-challenge-bb812.appspot.com');
 
   compileJs(() => {
